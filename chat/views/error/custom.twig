@@ -1,0 +1,74 @@
+{% extends 'templates/default.twig' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<div class="col-lg-6 offset-lg-3">
+    <div style="text-align: center;">
+        <img src="\assets\images\error\error.png" alt="Error" style="max-height: 300px;">
+    </div>
+    <br><br><br>
+    <div class="card">
+      <div class="card-header">
+        Oops
+      </div>
+      <div class="card-block" style="font-size: 80%;">
+            <label for="user-error">Error</label>
+            <p class="italic">Something unexpected occured, we apologize that you had faced this experience. We are on this now, and this problem shall be cured soon. <br>
+            If the problem persist please <a href="">report us</a>. <br>
+            Thanks for your valuable cooperation.</p>
+
+      </div>
+    </div>
+</div>
+{% if config.get('app.show_error_detail') %}
+
+<br><br>
+<div class="col-lg-6 offset-lg-3">
+    <div class="card">
+      <div class="card-header">
+        Error Report
+      </div>
+      <div class="card-block" style="font-size: 80%;">
+            <form>
+                <div class="form-group validation-group ">                                
+                    <label for="error.type" >Error Type</label> 
+                    <div class="row">
+                        <div class="col-md-12 validation-input-noerror"   >
+                            <input type="text" name="error.type" disabled="disabled" id="error.type"  class="form-control " value="{{type}}">  
+                        </div>   
+                    </div>                          
+               </div>
+                <div class="form-group validation-group ">                                
+                    <label for="error_name" >Error Name</label> 
+                    <div class="row">
+                        <div class="col-md-12 validation-input-noerror"   >
+                            <input type="text" name="error_name" disabled="disabled" id="error_name"  class="form-control " value="{{error.getMessage()}}">  
+                        </div>   
+                    </div>                          
+               </div>
+               <div class="form-group validation-group ">                                
+                    <label for="file_name" >File</label> 
+                    <div class="row">
+                        <div class="col-md-12 validation-input-noerror"   >
+                            <input type="text" name="file_name" disabled="disabled" id="file_name"  class="form-control " value="{{ error.getFile()}}">      
+                        </div>  
+                    </div>                       
+               </div>
+               <div class="form-group validation-group "> 
+                    <label for="Line" >Line</label> 
+                    <div class="row">                               
+                        <div class="col-md-12 validation-input-noerror"   >
+                            <input type="text" name="Line" disabled="disabled" id="Line" class="form-control " value="{{ error.getLine()}}">        
+                        </div>    
+                    </div>                   
+               </div>
+           </form>   
+      </div>
+    </div>
+</div>
+{% endif %}
+
+
+
+{% endblock %}

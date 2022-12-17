@@ -1,0 +1,155 @@
+<footer>
+    <div class="container-fluid">
+      <div class="col-lg-10 offset-lg-1 col-12">
+        <div class="row">
+          <div class="col-4">
+      
+                  <h4>Contact Our Media Team Members</h4><hr />
+        
+                  <strong>Your Name :<br></strong>
+                  <div class="form-group"><input type="text" name="contact_name" id="contact_name" placeholder="Your Name :" class="form-control" required="required"></div>
+                
+                  <strong>Your Email :<br></strong>
+                  <div class="form-group"><input type="email" name="contact_email" id="contact_email" placeholder="Your Email :" class="form-control" required="required"></div>
+          
+                  <strong>Your Contact :<br></strong>
+                  <div class="form-group"><input type="text" name="contact_contact" id="contact_contact" placeholder="Your Contact :" class="form-control" required="required"></div>
+                
+                  <strong>Your Message :<br></strong>
+                  <div class="form-group"><textarea name="contact_msg" id="contact_msg" cols="1" rows="2" required="required" placeholder="Message Us What You Want To Say!"class="form-control"></textarea></div>
+                 
+                  <div class="form-group" align="center"><input type="submit" name="contacts" id="contacts" value="Submit" class="btn btn-default" /></div>
+                  
+          </div>
+      
+          <div class="col-4">
+                <h4>About us</h4><hr />
+                  In OurMedia, We take a holistic view of diversity that looks beyond the usual measurements. A view that includes the varied perspectives of our users, students,startups and anyone who aspires to showcase their work to the world. Our Media is an online platform where a user gets all the updates on news, events,startups and varied topics which are highly captivating and fully entertained.<br />
+                  <br />
+                  It is the great platform to showcase your work to the world. Many people wish to write articles,but don't know how to create blogs and showcase their work. There are also situations that several products and talents don't get quality exposure easily. <br />
+                  <br />
+                  Our media helps you solve all such problems and help you create better exposure for your work and yourself. The best part of Our Media is it is easy to use,and everyone who has enthusiasm and talent to spread the word can use this platform, and it is free and open to everyone.<br />
+                  <br />
+          </div>
+
+          <div class="col-4">
+                  <h4>Feedback</h4><hr />
+                
+                  <strong>Your Name :<br></strong>
+                  <div class="form-group"><input type="text" name="feedback_name" id="feedback_name" placeholder="Your Name :" class="form-control" required="required"></div>
+                
+                  <strong>Your Email :<br></strong>
+                  <div class="form-group"><input type="email" name="feedback_email" id="feedback_email" placeholder="Your Email :" class="form-control" required="required"></div>
+                
+                  <strong>Your Feedback :<br></strong>
+                  <div class="form-group"><textarea name="feedback" id="feedback" cols="5" rows="5" required="required" placeholder="Your Feedback"class="form-control"></textarea></div>
+                 
+                  <div class="form-group" align="center"><input type="submit" name="feed" id="feed" value="Submit" class="btn btn-default" /></div>
+                  <div id="result" ></div>
+          </div>
+        </div>
+      </div>
+
+<div class="col-lg-10 offset-lg-1  col-12"><hr /><p>Web Application Developer : <a href="https://www.facebook.com/profile.php?id=100005175935690&amp;fref=ts">E.Pavan Kumar </a> | &copy; 2017 Our Media All Right Reserved.</p></div>
+</div>
+</footer>
+<a href="javascript:void(0);" onclick="$('html, body').animate({ scrollTop: 0 }, 500);" class="topbtn"><i class="fa fa-angle-up"></i></a>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+                      
+  $("#feed").click(function(){
+                  
+    var feedback_name = $("#feedback_name").val();
+    var feedback_email = $("#feedback_email").val();
+    var feedback = $("#feedback").val();
+    
+                                                                
+    $.ajax({
+                      
+      url: 'php_files/feedback.php',
+      data: {feedback_name:feedback_name,feedback_email:feedback_email,feedback:feedback},
+      type: 'POST',
+      success: function(data){
+      $("#result").html(data);
+                          
+      }
+                      
+    });
+                  
+  });
+              
+});
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+                      
+  $("#contacts").click(function(){
+                  
+    var contact_name = $("#contact_name").val();
+    var contact_email = $("#contact_email").val();
+    var contact_contact = $("#contact_contact").val();
+    var contact_msg = $("#contact_msg").val();
+                                                                
+    $.ajax({
+                      
+      url: 'php_files/contact.php',
+      data: {contact_name:contact_name,contact_email:contact_email,contact_contact:contact_contact,contact_msg:contact_msg},
+      type: 'POST',
+      success: function(data){
+      $("#result").html(data);
+                          
+      }
+                      
+    });
+                  
+  });
+              
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+$(window).scroll(function() {    
+    var scrolls = $(window).scrollTop();   
+  if (scrolls > 50) {
+        $(".catebar1").slideUp();
+    }else{
+    $(".catebar1").slideDown();
+  }
+});
+});
+
+$(document).ready(function() {
+
+    $(document).on("click",'.whatsapp',function() {
+
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+
+        var text = $(this).attr("data-text");
+        var url = $(this).attr("data-link");
+        var message = encodeURIComponent(text)+" - "+encodeURIComponent(url);
+        var whatsapp_url = "whatsapp://send?text="+message;
+        window.location.href= whatsapp_url;
+} else {
+    alert("Please share this article in mobile device");
+}
+
+    });
+});
+function fb(url,title) {
+    var currentURL        =    encodeURIComponent(url);
+    var tmpTitle          =     encodeURIComponent(title);
+    window.open("https://www.facebook.com/sharer.php?u="+currentURL,tmpTitle,"height=368,width=600,left=100,top=100,menubar=0");
+    return false;
+  }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,771 @@
+<script>
+    
+// $(document).ajaxSend(function(event, jqxhr, settings){
+//     $.LoadingOverlay("show");
+// });
+// $(document).ajaxComplete(function(event, jqxhr, settings){
+//     $.LoadingOverlay("hide");
+// });
+    function openConversation(conversation_id, user_id) {
+        $.LoadingOverlay("show");
+         $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.user.fetch')}}',
+            data:{user_id: user_id},
+       
+            success:function(data)
+            {
+                $.LoadingOverlay("show");
+
+                user_data = JSON.parse(data);
+                $.ajax({
+                    type:'GET',
+                    url:'{{path_for('ajax.message.fetch' , { 'count': 10} )}}',
+                    data:{conversation_id: conversation_id},
+
+                    success:function(data)
+                    {
+                        $.LoadingOverlay("show");
+
+                        result = JSON.parse(data);
+                        openNewConversation(user_data, conversation_id);
+                        var index;
+                        $('#message-box').html("");
+
+                        for (index = result.length -1 ; index >= 0  ; --index) {
+                            // console.log(result)
+                            if (result[index].me) {
+                                var text = "";
+                                if ( result[index].seen === true) {
+                                    text = '<span><img title="Seen" src="/chat/public/assets/images/asset/seen.png" alt="Seen" style="display: inline-block;width: 15px;margin-right: 10px;margin-top: -3px;" /> </span>';
+                                }
+                                content = result[index].content;
+                                save = "";
+                                if (result[index].type === 'image') {
+                                    save = '<span><a href="' + content +'" download="chat_image.jpeg" >Save</a></span> • ';
+
+                                    content =  "<img style='display: block;' src='" + content + "' style='max-height: 300px; max-width: 300px;' >";
+                                }
+                                $('#message-box').append(' <div class="row msg_container base_sent "> <div class="col-12 col-md-6 offset-md-6 col-lg-6 offset-lg-6"> <div class="row text-right"> <div class="col-10 offset-2"> <div class="messages msg_sent"> <p class="">' + content + '</p><time datetime="2009-11-13T20:00" class="">' + text + ' <span><img title="Sent" src="/chat/public/assets/images/asset/sent.png" alt="Sent" style="display: inline-block;width: 15px;margin-right: 10px;margin-top: -3px;" /> </span><span> Sent • '+ save +'  • '+ result[index].created_at +' </span></time> </div></div></div></div></div>');
+                            } else {
+                                content = result[index].content;
+                                save = "";
+                                if (result[index].type === 'image') {
+                                     save = '<span><a href="' + content +'" download="chat_image.jpeg" >Save</a></span> • ';
+                                    content =  "<img src='" + content + "' style='display:block; max-height: 100%; max-width: 100%;' >";
+                                }
+                               $('#message-box').append('<div class="row no-gutters msg_container base_recieve"> <div class="col-12 col-md-6  col-lg-6 "> <div class="row"><div class="col-10"> <div class="messages msg_sent"> <p class="">' + content + '</p><time datetime="2009-11-13T20:00" class="">'+ save +'  • '+ result[index].created_at +'</time> </div></div></div></div></div>'); 
+                            }
+                        }
+                        scroll();
+                          setTimeout(function(){ scroll() }, 500);
+                          setTimeout(function(){ scroll()  }, 1000);
+                          setTimeout(function(){ scroll()  }, 2000);
+                        $.LoadingOverlay("hide", true);
+                        
+
+                    },
+                    error: function() {
+                        produceError('Error while fetching user');
+                    }
+                });   
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+        
+
+
+        
+
+        seenConversation(conversation_id);
+
+    }
+    function scroll() {
+        document.getElementById("message-box").scrollTop  = 99999999999999999999 ; 
+         
+    }
+    function openNewConversation(userData, conversation_id)
+    {
+        console.log('opening new conversation');
+        $('#welcome').hide(); 
+        $('#chat-box').show();
+        $('#message-box').html("");
+        // console.log(userData.user_name);
+        $('#conversation-name').html("<a style='color: white' href='" + ("/user_profile.php?user=" + btoa(userData.user_id) ) + "'>" + userData.user_name + "</a>");
+        $('#conversation-image').attr("src",userData.user_image);
+        $('#last_seen').html("Last Seen: " +userData.last_login);
+        $('#identify-user').html(userData.user_id);
+        $('#identify-convo').html(conversation_id);
+        $('#message-box').html("");
+        
+
+
+    }
+    function createMessage() {
+        var el = $("#chat-message").emojioneArea();
+        message = el[0].emojioneArea.getText();
+
+
+
+        // message = $('#chat-message').val();
+        $('#chat-message').val("");
+        $('.emojionearea-editor').html("");
+        image = $('#active-image').attr("src");
+
+
+        console.log("Sending Message : " + message);
+        if (message == "") {
+            return;
+        }
+
+        scroll();
+        setTimeout(function(){ scroll() }, 500);
+        setTimeout(function(){ scroll()  }, 1000);
+        setTimeout(function(){ scroll()  }, 2000);
+        var text = "";
+                   
+     
+                   
+        $('#message-box').append(' <div class="row msg_container base_sent "> <div class="col-12 col-md-6 offset-md-6 col-lg-6 offset-lg-6"> <div class="row text-right"> <div class="col-10 offset-2"> <div class="messages msg_sent"> <p class="">' + message + '</p><time datetime="2009-11-13T20:00" class="">' + text + 'Sending... ' +'</time> </div></div></div></div></div>');
+       scroll();
+          setTimeout(function(){ scroll() }, 500);
+          setTimeout(function(){ scroll()  }, 1000);
+          setTimeout(function(){ scroll()  }, 2000);
+        user_id = $('#identify-user').html();
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.message.create')}}',
+            data:{user_id: user_id, message: message},
+            // async: false,
+            success:function(data)
+            {
+                result = JSON.parse(data);
+                console.log(result);
+                if (result.type == "error") {
+                    if (result.message == "You blocked this user to have chat") {
+                        swal({
+                              title: 'Oops',
+                              text: result.message,
+                              type: 'error',
+                              showCancelButton: true,
+                              confirmButtonText: 'Unblock',
+                              showLoaderOnConfirm: true,
+                              allowOutsideClick: false
+                            }).then(function () {
+                               // console.log(result);
+                               unblockUser(result.attainer_id);
+                            });
+                        }
+                    else if (result.message == "You need to be a follower of the user to start chat.") {
+                        swal({
+                              title: 'Oops',
+                              text: result.message,
+                              type: 'error',
+                              showCancelButton: true,
+                              confirmButtonText: 'View Profile',
+                              showLoaderOnConfirm: true,
+                              allowOutsideClick: false
+                            }).then(function () {
+                               console.log(result.otherend_id);
+                               window.location.href = ("/user_profile.php?user=" + btoa(result.otherend_id) );
+                               console.log("Redirecting to profile.");
+                                 return;
+                            })
+                    
+                    } else {
+                        swal({
+                              title: 'Oops',
+                              text: result.message,
+                              type: 'error',                       
+              
+                            })
+                    }
+                    
+                    return;
+                }
+
+
+                if (result.already == false) {
+                    
+                    $('#identify-convo').html(result.conversation_id);
+
+                          setTimeout(function() {location.reload();} , 5000);
+
+
+                } 
+                refresh();  
+
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+
+    }
+    function openContact(user_id) {
+        // alert("Contact : " + user_id);
+        $.LoadingOverlay("show");
+        user_data = fetchUser(user_id);
+        conversation_id = getConversationIdFromUserId(user_id);
+        if (conversation_id) {
+            // console.log('c_id')
+
+            openConversation(conversation_id, user_id) ;
+
+        } else {
+            // console.log('user_id')
+            openNewConversation(user_data, null);
+
+        }
+        $.LoadingOverlay("hide", true);
+    }
+    function getConversationIdFromUserId(user_id) {
+        result = false;
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.get.conversation_id')}}',
+            data:{user_id: user_id},
+            async: false,
+            success:function(data)
+            {
+                // console.log(data);
+
+                result = JSON.parse(data);    
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+        return result;
+    }
+    function fetchUser(user_id) {
+        
+
+        result = false;
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.user.fetch')}}',
+            data:{user_id: user_id},
+            async: false,
+            success:function(data)
+            {
+                // console.log(data);
+
+                result = JSON.parse(data);    
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+
+
+        return result;
+      
+    }
+
+    function getLastTenMessages(conversation_id) {
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.message.fetch' , { 'count': 10} )}}',
+            data:{conversation_id: conversation_id},
+            async: false,
+            success:function(data)
+            {
+                // console.log(data);
+
+                result = JSON.parse(data);    
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+        return result;
+    }
+
+    function seenConversation(conversation_id) {
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.seen')}}',
+            data:{conversation_id: conversation_id},
+            success:function(data)
+            {
+                log("conversation seen");
+            },
+            error: function() {
+                produceError('Error while seening');
+            }
+        });
+    }
+    function getUpdate() {
+
+
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.update')}}',
+         
+            success:function(data)
+            {
+                result = JSON.parse(data);
+                var index;
+
+                for (index = result.length -1 ; index >= 0  ; --index) {
+                    // console.log(result);
+                    $('#conversation' + result[index].conversation_id + ' .unread').html(result[index].unread);
+                    if (result[index].unread > 0 ) {
+                        $('#conversation' + result[index].conversation_id + ' .unread').show();
+                    } else {
+                        $('#conversation' + result[index].conversation_id + ' .unread').hide();
+                    }
+                   
+                        if (result[index].online == 1 ) {
+                            $('#conversation' + result[index].conversation_id + ' .c-name').css("color", "green");
+                        } else {
+                            $('#conversation' + result[index].conversation_id + ' .c-name').css("color", "black");
+                        }
+                   
+                     if ( $('#identify-convo').html() == result[index].conversation_id) {
+                        // console.log('trigger');
+                        if (result[index].online == 1 ) {
+                            $('#last_seen').html("Online");
+                        // console.log('online');
+
+                        } else {
+                        // console.log('offline');
+
+                            $('#last_seen').html("Last Seen: " + result[index].last_seen);
+                        }
+                     }
+                    $('#conversation' + result[index].conversation_id + ' .last_message').html(result[index].last_message);
+                    // console.log("Conversation " + result[index].conversation_id + "Updated")
+                }
+               
+
+
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+    }
+
+    function refresh(){       
+        // console.log("message request");
+        user_id = $('#identify-user').html();
+        conversation_id =  $('#identify-convo').html();
+        // console.log(conversation_id);
+        if (conversation_id.length === 0) {
+            return;
+        }
+        $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.message.fetch' , { 'count': 10} )}}',
+            data:{conversation_id: conversation_id},
+
+            success:function(data)
+            {
+                
+
+                result = JSON.parse(data);  
+                var index;
+                $('#message-box').html("");
+                for (index = result.length -1 ; index >= 0  ; --index) {
+                    // console.log(result[index].content);
+                    if (result[index].me) {
+                        var text = "";
+                        if ( result[index].seen === true) {
+                            text = '<span><img title="Seen" src="/chat/public/assets/images/asset/seen.png" alt="Seen" style="display: inline-block;width: 15px;margin-right: 10px;margin-top: -3px;" /> </span>';
+                        }
+                        content = result[index].content;
+                        save = "";
+                        if (result[index].type === 'image') {
+                             save = '<span><a href="' + content +'" download="chat_image.jpeg" >Save</a></span> • ';
+                            content =  "<img src='" + content + "' style='display:block; max-height: 100%; max-width: 100%;' >";
+                        }
+                        $('#message-box').append(' <div class="row msg_container base_sent "> <div class="col-12 col-md-6 offset-md-6 col-lg-6 offset-lg-6"> <div class="row text-right"> <div class="col-10 offset-2"> <div class="messages msg_sent"> <p class="">' + content + '</p><time datetime="2009-11-13T20:00" class="">' + text + ' <span><img title="Sent" src="/chat/public/assets/images/asset/sent.png" alt="Sent" style="display: inline-block;width: 15px;margin-right: 10px;margin-top: -3px;" /> </span><span> Sent • '+ save +'  • '+ result[index].created_at +'</time> </div></div></div></div></div>');
+                    } else {
+                        content = result[index].content;
+                        save = "";
+                        if (result[index].type === 'image') {
+                             save = '<span><a href="' + content +'" download="chat_image.jpeg" >Save</a></span> • ';
+                            content =  "<img src='" + content + "' style='display:block; max-height: 100%; max-width: 100%;' >";
+                        }
+                       $('#message-box').append('<div class="row no-gutters msg_container base_recieve"> <div class="col-12 col-md-6  col-lg-6 "> <div class="row"> <div class="col-10"> <div class="messages msg_sent"> <p class="">' + content + '</p><time datetime="2009-11-13T20:00" class="">'+ save +'  • '+ result[index].created_at +'</time> </div></div></div></div></div>'); 
+                    }
+                }  
+                 scroll();
+
+            },
+            error: function() {
+                produceError('Error while fetching user');
+            }
+        });
+       
+        seenConversation(conversation_id);
+        
+ 
+    }
+
+
+
+   setInterval(function(){ getUpdate(); refresh();  }, 4000);
+    // 
+
+    function sendImage() {
+
+        swal({
+          title: 'Select image',
+          input: 'file',
+          confirmButtonText: 'Send Image',
+          inputAttributes: {
+            accept: 'image/*'
+          },
+           showLoaderOnConfirm: true,
+          preConfirm: function (file) {
+            return new Promise(function (resolve, reject) {
+ 
+                 var imagefile = file.type;
+                 var imagesize = file.size;
+                 var match= ["image/jpeg","image/png","image/jpg"];
+                if (!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))) {
+                  reject('Given File is not an Image')
+                } else {
+                    if (imagesize > 5000000) {
+                        reject('Image file must be less than 5MB')
+                    } else {
+                        resolve()
+                    }
+                }
+
+            })
+          }
+        }).then(function (file) {
+              
+                $.LoadingOverlay("show");
+
+                    var reader = new FileReader;
+                    reader.addEventListener("load", function () {
+                         imagecode = (reader.result);
+                        
+                         user_id = $('#identify-user').html();
+                            $.LoadingOverlay("show");
+
+                            $.ajax({
+                            type:'POST',
+                            url:'{{path_for('ajax.message.create.image')}}',
+                            data:{user_id: user_id, message: imagecode},
+                            // async: false,
+                            success:function(data)
+                            {
+
+                                $.LoadingOverlay("show");
+                                  result = JSON.parse(data); 
+                                  if (result.type == "error") {
+                                        $.LoadingOverlay("hide",true);
+
+                                    if (result.message == "You blocked this user to have chat") {
+                                        swal({
+                                              title: 'Oops',
+                                              text: result.message,
+                                              type: 'error',
+                                              showCancelButton: true,
+                                              confirmButtonText: 'Unblock',
+                                              showLoaderOnConfirm: true,
+                                              allowOutsideClick: false
+                                            }).then(function () {
+                                               // console.log(result);
+                                               unblockUser(result.attainer_id);
+                                            });
+
+                                        }
+                                    else if (result.message == "You need to be a follower of the user to start chat.") {
+                                        swal({
+                                              title: 'Oops',
+                                              text: result.message,
+                                              type: 'error',
+                                              showCancelButton: true,
+                                              confirmButtonText: 'View Profile',
+                                              showLoaderOnConfirm: true,
+                                              allowOutsideClick: false
+                                            }).then(function () {
+                                                 window.location.href = ("/user_profile.php?user=" + btoa(result.otherend_id) );
+                                                 console.log("Redirecting to profile.");
+                                                 return;
+                                               
+                                            })
+                                    
+                                    } else {
+                                        swal({
+                                              title: 'Oops',
+                                              text: result.message,
+                                              type: 'error',                       
+                              
+                                            })
+                                    }
+                                }
+                                             scroll();
+                              setTimeout(function(){ scroll() }, 500);
+                              setTimeout(function(){ scroll()  }, 1000);
+                              setTimeout(function(){ scroll()  }, 2000);
+
+                            var text = "";
+
+                            content =  "<img style='display: block;' src='" + imagecode + "' style='max-height: 300px; max-width: 300px;' >";
+                              image = $('#active-image').attr("src");
+             
+                           
+                            $('#message-box').append(' <div class="row msg_container base_sent "> <div class="col-12 col-md-6 offset-md-6 col-lg-6 offset-lg-6"> <div class="row text-right"> <div class="col-10"> <div class="messages msg_sent"> <p class="">' + content + '</p><time datetime="2009-11-13T20:00" class="">' + text + 'Sending... ' +'</time> </div></div><div class="col-2 avatar"> <img src="' + image+ '" style="width:50px; height: 50px;" class="img-responsive img-circle"> </div></div></div></div>');
+
+                             scroll();
+                              setTimeout(function(){ scroll() }, 500);
+                              setTimeout(function(){ scroll()  }, 1000);
+                              setTimeout(function(){ scroll()  }, 2000);
+                              if (result.already == false) {
+                    
+                                    $('#identify-convo').html(result.conversation_id);
+
+                                          setTimeout(function() {location.reload();} , 5000);
+
+
+                                }
+                    $.LoadingOverlay("hide", true);
+
+                            },
+                            error: function() {
+                                swal({
+                                  title: 'Error!',
+                                  text: 'Cannot send your Image. Please Retry',
+                                  type: 'error',
+                                  confirmButtonText: 'Okay'
+                                })
+                            }
+                        });                        
+
+                    }, false);
+                    if (file) {
+                        reader.readAsDataURL(file);
+                    }
+                $.LoadingOverlay("hide", true);
+           
+           
+
+
+        })
+    }
+    function getConvUpdate() {
+        // body...
+    }
+
+    function log(data) {
+        // console.log(data);
+    }
+    function produceError(message) {
+        console.log("Error");
+        console.log(message);
+        // alert(message);
+    }
+    function search() {
+
+        input = $('#search-input').val().toLowerCase();;
+        contacts = $(".contacts .contact");
+        
+        for (i = 0; i < contacts.length; i++) {
+
+            contact = contacts[i];
+            contactname = ($(contact).find('.c-name').html());
+            if (contactname.toLowerCase().indexOf(input) > -1) {
+                contact.style.display = "";
+            } else {
+                contact.style.display = "none";
+            }
+
+        }
+
+
+        // Loop through all list items, and hide those who don't match the search query
+        
+
+    }    
+
+    function searchTag() {
+
+        input = $('#search-tag-input').val().toLowerCase();;
+        tags = $("#tag-menu .searchable");
+   
+        
+        for (i = 0; i < tags.length; i++) {
+
+            tag = tags[i];
+
+
+            tagname = ($(tag).text());
+       
+            if (tagname.toLowerCase().indexOf(input) > -1) {
+                tag.style.display = "";
+            } else {
+                tag.style.display = "none";
+            }
+
+        }
+
+
+        // Loop through all list items, and hide those who don't match the search query
+        
+
+    }   
+
+    $("#search-input").hide();
+
+    $("#search-fa").click(function(){
+        $("#search-input").slideToggle();
+    });
+    $("#home").click(function(){
+        
+    });
+
+    function clearChat() {
+                                $.LoadingOverlay("show");
+
+        user_id = $('#identify-user').html();
+        conversation_id =  $('#identify-convo').html();
+         $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.clear')}}',
+            data:{conversation_id: conversation_id},
+            success:function(data)
+            {
+                swal({
+                  title: 'Success',
+                  text: "Conversation Cleared",
+                  type: 'success',
+                  
+                });
+
+            },
+            error: function() {
+                produceError('Error while seening');
+            }
+        });
+                                $.LoadingOverlay("hide", true);
+
+
+    }
+    function deleteChat() {
+        user_id = $('#identify-user').html();
+        conversation_id =  $('#identify-convo').html();
+         $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.delete')}}',
+            data:{conversation_id: conversation_id},
+            success:function(data)
+            {
+                swal({
+                  title: 'Success',
+                  text: "Conversation Deleted. Refreshing...",
+                  type: 'success',
+                  
+                });
+                location.reload();
+
+            },
+            error: function() {
+                produceError('Error while seening');
+            }
+        });
+
+    }
+    function blockUser() {
+        user_id = $('#identify-user').html();
+                $.LoadingOverlay("show");
+         $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.block')}}',
+            data:{user_id: user_id},
+            success:function(data)
+            {
+                if (data == "blocked") {
+                    swal({
+                      title: 'Success',
+                      text: "User Blocked.",
+                      type: 'success',
+                      
+                    });
+                    // location.reload();
+                } else {
+                    swal({
+                      title: 'Error',
+                      text: "Cannot block user, please try again",
+                      type: 'error',
+                      
+                    });
+                }
+
+            },
+            error: function() {
+                produceError('Error while seening');
+            }
+        });
+         $.LoadingOverlay("hide", true);
+         
+    }
+    function unblockUser(attainer_id) {
+
+        $.LoadingOverlay("show");
+         $.ajax({
+            type:'GET',
+            url:'{{path_for('ajax.service.unblock')}}',
+            data:{user_id: attainer_id},
+            success:function(data)
+            {
+                if (data == "unblocked") {
+                    swal({
+                      title: 'Success',
+                      text: "User Unblocked.",
+                      type: 'success',
+                      
+                    });
+                    // location.reload();
+                } else {
+                    swal({
+                      title: 'Error',
+                      text: "Cannot unblock user, please try again",
+                      type: 'error',
+                      
+                    });
+                }
+
+            },
+            error: function() {
+                produceError('Error while seening');
+            }
+        });
+         $.LoadingOverlay("hide", true);
+    }
+    function tag(name) {
+        // console.log(name);
+        $('.emojionearea-editor').append(" @" + name + " ");
+        $('.emojionearea-editor').focus();
+    }
+ 
+ var autouser =  {{ auto_user}};
+    if (autouser > 0) {
+        openContact(autouser);
+        if ($(document).width() < 775) {
+            $("#contact-row").toggleClass("collapsed");        
+            $("#chat").toggleClass("col-8 col-12");
+            $("#chat").removeClass("hidden-md");
+            $("#chat").removeClass("hidden-xs");
+            $("#chat").removeClass("hidden-sm");
+            $("#in-chat").removeClass("on-web");
+            $("#in-chat").addClass("on-mobile");
+            $("#in-in-chat").css({"margin-left": "-12px"});
+        }
+
+    }         
+
+         
+            
+  
+
+</script>

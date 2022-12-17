@@ -1,0 +1,60 @@
+First Look : Build Secure Advanced Authentication System (SlimAuth)
+Build Secure Advanced Authentication System in PHP - What's Inside?
+Build Secure Advanced Authentication System in PHP - Installing Dependencies
+Build Secure Advanced Authentication System in PHP - PSR-4 Autoloading
+Build Secure Advanphp-di/slim-bridgeced Authentication System in PHP - Setting Up Slim Application
+Build Secure Advanced Authentication System in PHP - .htaccess Tweaks
+Build Secure Advanced Authentication System in PHP - Injecting DI-Bridge
+Build Secure Advanced Authentication System in PHP - Setting up Configuration
+Build Secure Advanced Authentication System in PHP - Creating Database Connection
+Build Secure Advanced Authentication System in PHP - Adding Definitions - Router, Twig, Config
+Build Secure Advanced Authentication System in PHP - Setting up Default Timezone
+Build Se  h hhhhcure Advanced Authentication System in PHP - Working with Routes
+Build Secure Advanced Authentication System in PHP - Building a Twig Template
+Build Secure Advanced Authentication System in PHP - Creating Homepage
+Build Secure Advanced Authentication System in PHP - Creating User Model
+Build Secure Advanced Authenti     bcation System in PHP - Registration Page
+Build Secure Advanced Authentication System in PHP - Preventing Cross-site request forgery
+Build Secure Advanced Authentication System in PHP - Validating Forms using Respect/Validationc
+Build Secure Advanced Authe       ntication System in PHP - Creating Validating Rules
+Build Secure Advanced Authentication System in PHP - SweetAlert Flash Messages
+Build Secure Advanced Authentication System in PHP - Registering User
+Build Secure Advanced Authentication System in PHP - Sending Mails
+Build Secure Advanced Authentication System in PHP - Activating Account
+Build Secure Advanced Authentication System in PHP - Log In Form
+Build Secure Advanced Authentication System in PHP - Logging in
+Build Secure Advanced Authentication System in PHP - Logging Out
+Build Secure Advanced Authentication System in PHP - Forgot Password
+Build Secure Advanced Authentication System in PHP - Navigation Menu
+Build Secure Advanced Authentication System in PHP - Change Password
+Build Secure Advanced Authentication System in PHP - Change Profileb
+Build Secure Advanced Authentication System in PHP - Sign in with Google
+Build Secure Advanced Authentication System in PHP - Sign in with Facebook
+Build Secure Advanced Authentication System in PHP - Sign in with Twitter
+Build Secure Advanced Authentication System in PHP - Preparing Social Registration 
+Build Secure Advanced Authentication System in PHP - Completing Social Registration 
+Build Secure Advanced Authentication System in PHP - Managing Users
+Build Secure Advanced Authentication System in PHP - Sorting Table
+Build Secure Advanced Authentication System in PHP - Filtering Table
+Build Secure Advanced Authentication System in PHP - Activating/Deactivating Accounts
+Build Secure Advanced Authentication System in PHP - Banning Accounts
+Build Secure Advanced Authentication System in PHP - Working with Roles
+Build Secure Advanced Authentication System in PHP - Alloting Role
+Build Secure Advanced Authentication System in PHP - Removing Role
+Build Secure Advanced Authentication System in PHP - Access Control
+Build Secure Advanced Authentication System in PHP - Updating Navigation
+Build Secure Advanced Authentication System in PHP - Error Handling
+Build Secure Advanced Authentication System in PHP - Setting up Not Found Page
+Build Secure Advanced Authentication System in PHP - Setting up Not Allowed Page
+Build Secure Advanced Authentication System in PHP - Setting up CSRF attempt page
+Build Secure Advanced Authentication System in PHP - Setting up Error Page
+Build Secure Advanced Authentication System in PHP - Logging Errors
+Build Secure Advanced Authentication System in PHP - Sending Error Reports
+Build Secure Advanced Authentication System in PHP - Contact Form
+Build Secure Advanced Authentication System in PHP - Report a bug Form
+Build Secure Advanced Authentication System in PHP - Securing PHP
+
+
+
+
+

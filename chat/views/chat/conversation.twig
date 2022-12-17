@@ -1,0 +1,46 @@
+                    <div id="conversation{{contact.id}}" class="contact" onclick="openConversation({{contact.id}}, {{ user.user_id }})"  style="border: 1px solid #CCC;">
+                              
+                            <!-- Contacts -->
+                            <!-- Contact -->
+                           <div class="row row-eq-height" style="padding-top: 5px;padding-bottom: 5px;">
+                                
+                                <div class="col-fixed-60">
+                                    <div style="padding: 10px;">
+
+                                        <div  class="ratio img-responsive img-circle" style="background-image: url('/user_images/{{ user.user_image}}');"></div>
+                                    </div>
+                                </div>
+                                <div class="col-8 col-offset-60" >
+                                    <div class="row row-eq-height">
+                                        <div class="col-8 " style="text-align: left;">
+                                            <!-- Details -->
+                                            <p class="c-name" style="font-size: 140%; font-weight: 700; margin-bottom: 5px;" >{{ user.user_name | capitalize}} </p>
+
+                                            <p class="last_message" style="font-style: italic; margin-bottom: 0px;"> {% if  contact.messages.sortByDesc('created_at').first.type == "image" %}Image {% else %}
+                                                 {{ php.substr(contact.messages.sortByDesc('created_at').first.content,0,30)}}...{% endif %}</p>
+                                        </div>
+                                        <div class="col-4">
+                                            {% set count = contact.messages.where('sender_id', user.user_id).where('seen', false).count %}
+                                            
+                                            <!-- Bubble -->
+                                            <div class="unread" {% if count %} {% else %} style="display: none;" {% endif %} class="badge" onclick="seenConversation({{contact.id}})">{{ count  }}</div>
+                                            
+                                        </div>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <style> 
+                            .contact .row .col-2 img {
+                                margin-left: 10px;
+                                    border-radius: 0px;
+                            }
+                          /*  .contact .row .col-2 {
+                                padding-right: 0px;
+                               
+                            }
+                            .contact .row .col-10 {
+                                padding-left: 0px;
+                            }*/
+                        </style>

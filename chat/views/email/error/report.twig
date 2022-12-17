@@ -1,0 +1,38 @@
+<label style="font-weight: 600;">From</label><br>
+<label>{{ config.get('app.name') }}</label><br><br>
+
+<label style="font-weight: 600;">Message</label><br>
+<label>{{ data.array.message }}</label><br><br>
+
+<label style="font-weight: 600;">Type</label><br>
+<label>{{ data.array.type }}</label><br><br>
+
+<label style="font-weight: 600;">File</label><br>
+<label>{{ data.array.file_name }}</label><br><br>
+
+<label style="font-weight: 600;">Line</label><br>
+<label>{{ data.array.line_no }}</label><br><br>
+
+<label style="font-weight: 600;">Data</label><br>
+<label>{{ data.array.data | json_encode }}</label><br><br>
+
+<label style="font-weight: 600;">User agent</label><br>
+<label>{{ data.array.useragent }}</label><br><br>
+
+<label style="font-weight: 600;">Content Type</label><br>
+<label>{{ data.array.contenttype }}</label><br><br>
+
+<label style="font-weight: 600;">IP address</label><br>
+<label>{{ data.array.ip }}</label><br><br>
+
+<label style="font-weight: 600;">Method</label><br>
+<label>{{ data.array.method }}</label><br><br>
+
+<label style="font-weight: 600;">Server</label><br>
+<label>{{ data.array.server }}</label><br><br>
+
+<label style="font-weight: 600;">Referer</label><br>
+<label>{{ data.array.ref }}</label><br><br>
+
+<label style="font-weight: 600;">Time</label><br>
+<label>{{ data.array.time }}</label><br><br>

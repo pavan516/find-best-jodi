@@ -1,0 +1,26 @@
+{% extends 'templates/default.twig' %}
+
+{% block title %}CSRF Attempt{% endblock %}
+
+{% block content %}
+<div class="col-lg-6 offset-lg-3">
+    <div style="text-align: center;">
+        <img src="\assets\images\error\csrf.png" alt="Cross site request forgery" style="max-height: 300px;">
+    </div>
+    <br><br><br>
+    <div class="card">
+      <div class="card-header">
+        CSRF Attempt
+      </div>
+      <div class="card-block" >
+            <p class="italic">It seems that you had tried to do a CSRF attempt. <br> The possible reasons for this attempt are</p>
+            <ol>
+                <li>You have submitted a form more than once (may be unintentionally)</li>
+                <li>Your session may have expired</li>
+                <li>Your browser cache is missing</li>
+            </ol>
+            <p class="italic">If you think it is an anomaly and repeatedly occuring, please <a href="{{ path_for('contact')}}">report us</a>. <br>Thank you for your valuable cooperation.</p>
+      </div>
+    </div>
+</div>
+{% endblock %}

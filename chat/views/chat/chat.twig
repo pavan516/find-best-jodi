@@ -1,0 +1,332 @@
+
+<style>
+    
+.chat-window{
+    bottom:0;
+    float:right;
+    margin-left:10px;
+}
+.chat-window > div > .panel{
+    border-radius: 5px 5px 0 0;
+}
+.icon_minim{
+    padding:2px 10px;
+}
+.msg_container_base{
+  background: #e5e5e5;
+  margin: 0;
+  padding: 0 10px 10px;
+/*  max-height:300px;*/
+  overflow-x:hidden;
+}
+.top-bar {
+  background: #666;
+  color: white;
+  padding: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.msg_receive{
+    padding-left:0;
+    margin-left:0;
+}
+.msg_sent{
+    padding-bottom:20px !important;
+    margin-right:0;
+}
+.messages {
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width:100%;
+}
+.messages > p {
+    font-size: 13px;
+    margin: 0 0 0.2rem 0;
+  }
+.messages > time {
+    font-size: 11px;
+    color: #ccc;
+}
+.msg_container {
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+}
+img {
+    display: block;
+    
+}
+.avatar {
+    position: relative;
+}
+.base_receive > .avatar:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid #FFF;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+}
+
+.base_sent {
+    /*max-width: 500px!important;*/
+    text-align: right!important;
+    /*position: sticky;*/
+    /*right: 0;*/
+/*  justify-content: flex-end;
+  align-items: flex-end;*/
+}
+.base_sent > .avatar:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 5px solid white;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    box-shadow: 1px 1px 2px rgba(black, 0.2); // not quite perfect but close
+}
+
+.msg_sent > time{
+    float: right;
+}
+
+
+
+.chat-window::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.chat-window::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.chat-window::-webkit-scrollbar-thumb
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+.btn-group.dropup{
+    position:fixed;
+    left:0px;
+    bottom:0;
+}
+</style>
+<div class="" style="
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+">
+    <div class="row chat-window col-xs-12 col-md-12" id="chat_window_1" style="
+    display: flex;
+    flex-direction: column;
+        height: 100%;
+" >
+        <div class="col-12 no-gutters no-side-padding" style="    display: flex;
+    flex-direction: column;">
+            <div class="panel panel-default" style="    display: flex;
+    flex-direction: column;
+    height: 100%;">
+                <div class="panel-heading top-bar" style="      flex: none;
+    top: 0; z-index: 1;">
+                    <div class="col-md-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-1 col-xs-2" style="    margin-bottom: auto;
+    margin-top: auto;">
+                                <span id="back" style="    margin-bottom: auto;
+    margin-top: auto;" title="Back to contacts"><i class="fa-chevron-circle-left fa" style="cursor:pointer;     font-size: -webkit-xxx-large;" ></i>  </span>
+                            </div>
+                            <div class="col-10  col-xs-10" style="display: inline-flex;">
+                                <div class="col-12">
+
+                                    <div>
+                                        
+                                        <div class="col-12" >
+                                            <h3  style="padding-top: 10px;text-align: left;     line-height: 22px;">
+                                                <span id="conversation-name" style="display: block;">Contact Name</span>
+                                                <span style="font-size: 10px;" id="last_seen"><span>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                      
+                                
+                            </div>
+                           
+                        </div>
+                         
+
+                    </div>
+                </div>
+
+                <div id="message-box" class=" panel-body msg_container_base" style="
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    flex: auto;">  
+                </div>
+
+                <div class="panel-footer" style=" flex:none;     bottom: 0;">
+                        <input style="    margin-bottom: -0.75px;" id="chat-message" type="text" class="emojiable-questvion form-control input-sm chat_input padding-bot" onkeypress="Javascript: if (event.keyCode==13) createMessage();" placeholder="Write your message here..."> 
+                        <style>
+.btn-group.special {
+  display: flex;
+}
+
+.special .btn {
+  flex: 1
+}
+.expand{
+  flex: 1
+}
+</style>
+<style>
+                            .padding-bot{
+                                    padding-bottom: 36px!important;
+                            }
+                        </style>
+<div class="btn-group special" role="group" aria-label="...">
+                            <div class="dropup expand">
+                              
+                              <button type="button" class="btn-block  expand btn btn-primary  dropdown-toggle" style="border-radius: 0px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-gear"></i>
+                              </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" onclick="clearChat()" href="#">Clear Chat</a>
+                                    <a class="dropdown-item"  onclick="deleteChat()" href="#">Delete Chat</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" style="color: red;" onclick="blockUser()" href="#">Block User</a>
+                                  </div>
+                            </div>
+
+                            <div class="dropup expand  ">
+                              
+                              <button type="button" class="btn-block btn expand btn-primary dropdown-toggle" style="border-radius: 0px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-tags"></i>
+                              </button>
+                                <div id="tag-menu" class="dropdown-menu">
+                                    <h6 class="dropdown-header ">Followers</h6>
+                                    {% for follower in user.followers %}
+
+                                        <a class="dropdown-item searchable" {% if loop.index > 10 %} style="display:none;" {% endif %}   onclick="tag('{{ follower.follower.user_name}}');" href="#"><span class=".text-tag">@{{ follower.follower.user_name}}</span></a>
+                                        
+                                    {% endfor %}
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">Followings</h6>
+                                    {% for following in user.followings %}
+
+                                        <a class="dropdown-item searchable" {% if loop.index > 10 %} style="display:none;" {% endif %}   onclick="tag('{{ following.following.user_name}}');" href="#"><span class=".text-tag">@{{ following.following.user_name}}</span></a>
+                                        
+                                    {% endfor %}
+                                    <div class="dropdown-divider"></div>
+                                    <h6 class="dropdown-header">Search</h6>                                    
+                                    <input  onkeyup="searchTag()"  id="search-tag-input" type="text" placeholder="Search Tags..." class="dropdown-item">
+                        
+                                
+                                  </div>
+                            </div>
+                            <button  title="Send Image" class="btn btn-primary btn-md" onclick="sendImage()" id="btn-image"><i class="fa fa-image"></i></button>
+                            <button style="border-radius: 0px;" id="sendmessage" title="Send Message" class="btn btn-primary btn-md " onclick="createMessage()" id="btn-chat"><i class="fa fa-rocket"></i></button>
+                            
+                        </div>
+                    
+                    <span style="display: none;" id="identify-user"></span>
+                    <span style="display: none;" id="identify-convo"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <style type="text/css">
+        .emojionearea .emojionearea-picker {
+            background: #FFF;
+            position: absolute;
+            -moz-box-shadow: 0 1px 5px rgba(0,0,0,.32);
+            -webkit-box-shadow: 0 1px 5px rgba(0,0,0,.32);
+            box-shadow: 0 1px 5px rgba(0,0,0,.32);
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            height: 276px;
+            width: 270px!important;
+            top: -15px;
+            right: -15px;
+            z-index: 90;
+            -moz-transition: all .25s ease-in-out;
+            -o-transition: all .25s ease-in-out;
+            -webkit-transition: all .25s ease-in-out;
+            transition: all .25s ease-in-out;
+            filter: alpha(Opacity=0);
+            opacity: 0;
+            -moz-user-select: -moz-none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            user-select: none
+        }
+        .emojionearea .emojionearea-picker .emojionearea-wrapper {
+            position: relative;
+            height: 276px;
+            width: 270px!important;
+        }
+
+        .emojionearea .emojionearea-picker.emojionearea-picker-position-top {
+
+            right: -10px!important;
+        }
+
+        .emojionearea .emojionearea-picker.emojionearea-picker-position-top .emojionearea-wrapper:after {
+            width: 19px!important;
+            height: 10px!important;
+            background-position: -2px -49px!important;
+            bottom: -10px!important;
+            right: 40px!important
+        }
+
+        .emojionearea .emojionearea-picker.emojionearea-picker-position-top.emojionearea-filters-position-bottom .emojionearea-wrapper:after {
+            background-position: -2px -80px!important
+        }
+
+  </style>
+<script>
+$(document).ready(function() {
+   
+    var area = $("#chat-message").emojioneArea({
+        pickerPosition: "top",
+        autoHideFilters   : true, 
+        tones: false,
+        autocomplete: false,
+        inline: true,
+        events: {
+    
+            focus: function (editor, event) {
+              
+            },
+            keyup: function (editor, event) {
+                
+
+              if (event.keyCode==13) { console.log("ENTER up"); createMessage();}
+            },
+    
+        }
+ 
+      });
+
+                
+                
+
+ 
+});
+       
+
+</script>

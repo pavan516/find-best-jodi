@@ -1,0 +1,76 @@
+{% if flash.getMessage('success') %}
+        <div class="alert alert-success alert-dismissable text-center" style="padding-top: 5px;padding-bottom: 5px;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong></strong> {{ flash.getMessage('success') | first |  raw }}</div>
+
+{% endif %}
+{% if flash.getMessage('info') %}
+        <div class="alert alert-info alert-dismissable text-center" style="padding-top: 5px;padding-bottom: 5px;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Info!</strong> {{ flash.getMessage('info')  | first | raw}}</div>
+
+{% endif %}
+{% if flash.getMessage('warning') %}
+        <div class="alert alert-warning alert-dismissable text-center" style="padding-top: 5px;padding-bottom: 5px;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Warning!</strong> {{ flash.getMessage('warning')  | first | raw}}</div>
+
+{% endif %}
+{% if flash.getMessage('error') %}
+        <div class="alert alert-danger alert-dismissable text-center" style="padding-top: 5px;padding-bottom: 5px;">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Error!</strong>  {{ flash.getMessage('error')  | first | raw}}</div>
+
+{% endif %}
+{% if flash.getMessage('sweet-warning') %}
+
+        <script>swal({ 
+                        title: "Warning!" ,
+                        type:"warning",
+                        text: "{{ flash.getMessage('sweet-warning') | first | raw }}",
+                        timer: 20000,
+                        confirmButtonColor: '#d43f3a',
+                        confirmButtonText: "Okay"
+                 })</script>
+      
+
+{% endif %}
+{% if flash.getMessage('sweet-error') %}
+
+        <script>swal({ 
+                        title: "Error!" ,
+                        type:"error",
+                        text: "{{ flash.getMessage('sweet-error') | first | raw }}",
+                        timer: 20000,
+                        confirmButtonColor: '#d43f3a',
+                        confirmButtonText: "Okay"
+                 })</script>
+      
+
+{% endif %}
+{% if flash.getMessage('sweet-success') %}
+
+        <script>swal({ 
+                        title: "Success!" ,
+                        type:"success",
+                        text: "{{ flash.getMessage('sweet-success') | first | raw }}",
+                        timer: 20000,
+                        confirmButtonColor: '#d43f3a',
+                        confirmButtonText: "Okay"
+                 })</script>
+      
+
+{% endif %}
+{% if flash.getMessage('sweet-info') %}
+
+        <script>swal({ 
+                        title: "Information!" ,
+                        type:"info",
+                        text: "{{ flash.getMessage('sweet-info') | first | raw }}",
+                        timer: 20000,
+                        confirmButtonColor: '#d43f3a',
+                        confirmButtonText: "Okay"
+                 })</script>
+      
+
+{% endif %}

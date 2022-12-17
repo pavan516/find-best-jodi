@@ -1,0 +1,10 @@
+{% extends 'email/template/default.twig' %}
+{% block content %}
+    This is in the regard of activating your {{ config.get('app.name')}} account.
+    <br>
+    Use this code to activate your account:
+    <h2>{{ data.code }}</h2>
+    <br>
+    <strong>Note:</strong> This code is valid only for 1 hour.<br>    
+    Remember! Do not share this code with anyone else and no one from {{ config.get('app.name')}} will ever ask for this code.
+{% endblock %}

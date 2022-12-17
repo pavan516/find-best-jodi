@@ -1,0 +1,39 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="{{ base_url() }}" style="text-transform: uppercase; font-weight: 700;" >{{ config.get('app.name')}}</a>
+    <div class="navbar-collapse collapse" id="navbarNav">
+        <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+            
+            {% if auth.check() %}
+              {% set accessables = ["Administrator", "Moderator", "Analyser"] %}  
+              {% if auth.user().haveAccess(accessables)  %}
+                <li class="nav-item dropdown ">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Privileges</a>
+                  <div class="dropdown-menu  dropdown-menu-right" style="border-radius: 0px;">
+                    <a class="dropdown-item" href="{{ path_for('manage.users.all')}}">Manage Users</a>
+                    
+                  </div>
+                </li> 
+              {% endif %}
+              <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ auth.name }}</a>
+                <div class="dropdown-menu  dropdown-menu-right" style="border-radius: 0px;">
+                  <a class="dropdown-item" href="{{ path_for('change.profile')}}">Profile</a>
+                  <a class="dropdown-item" href="{{ path_for('change.password')}}">Change Password</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{{ path_for('signout')}}">Sign out</a>
+                </div>
+              </li>                           
+            {% else %}                 
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ path_for('signin')}}">Sign In</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="{{ path_for('signup')}}">Sign Up</a>
+              </li> 
+            {% endif %}           
+        </ul>
+    </div>
+</nav>

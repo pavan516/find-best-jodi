@@ -1,0 +1,371 @@
+{% extends 'templates/default.twig' %}
+{% block title %}Find Best Jodi{% endblock %}
+{% block content %}
+    <style>
+    .no-side-padding {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .contact {
+        background-color: white;
+        -webkit-transition: background-color 1s ease-out;
+        -moz-transition: background-color 1s ease-out;
+        -o-transition: background-color 1s ease-out;
+        transition: background-color 1s ease-out;
+        cursor: pointer;
+    }
+    .contact:hover {
+        background-color: #f4f5f5;
+    }
+    .contact:active {
+        background-color: #e9ebeb;
+    }
+    .unread {
+        font-weight: 700;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        border-radius: 50%;
+        box-shadow: 0 0 1px #333;
+        background: green;
+        color: white;
+        font-size: 15px;
+    }
+    .card {
+          /* The image used */
+            background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi7kEhUwcRzIwRKAtE70SvGbTBEC6JlZs4mh4dnNj6_U8ku17xQw");
+            /* Full height */
+            height: 100%; 
+
+            /* Center and scale the image nicely */
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: repeat;
+           box-shadow: 0px 0px 20px 0px #888888;
+            /*background-size: cover;*/
+    }
+   
+    .contacts {
+      height: 90%;
+      overflow: scroll;
+
+    }
+
+
+    .contacts::-webkit-scrollbar {
+        width: 5px;
+    }
+     
+    .contacts::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+     
+    .contacts::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
+    @media screen and (max-width: 600px){
+        .col-sm-12, .col-xs-12, .container-fluid {
+            padding-left: 0px!important;
+            padding-right: 0px!important;
+        }
+
+    }
+    @media screen and (max-width: 1400px) and (min-width: 800px){
+        .card-block {
+            height: 90vh!important;
+        }
+        .on-web-two {
+            display: none!important;
+        }
+
+    }
+    /* Mobile */
+        .on-mobile {
+            display: none;
+        }
+        .on-web {
+            display: block;
+        }
+    @media screen and (max-width: 775px) {
+    /*    .card {
+            max-height: 400px;
+        }*/
+    
+        .on-mobile {
+            display:block!important;
+        }
+        .on-web {
+            display: none!important;
+        }
+        .conatct {
+            width: 100%!important;
+        }
+
+
+    }
+    #sidebar {
+      /* for the animation */
+      transition: margin 0.3s ease;
+    }
+
+    .collapsed {
+      /* hide it for small displays*/
+      display: none;
+    }
+
+    .caption div {
+        box-shadow: 0 0 5px #C8C8C8;
+        transition: all 0.3s ease 0s;
+    }
+    .img-circle {
+        border-radius: 50%;
+    }
+    .img-circle {
+        border-radius: 0;
+    }
+
+    .ratio {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        height: 0;
+        padding-bottom: 100%;
+        position: relative;
+        width: 100%;
+    }
+    .img-circle {
+        border-radius: 50%;
+    }
+    .img-responsive {
+        display: block;
+        height: auto;
+        max-width: 100%;
+    }
+    .col-fixed-60{
+        margin-left:10px;
+        width:60px;
+        /*background:blue;*/
+        /*position:fixed;*/
+        height:100%;
+        z-index:1;
+    }
+
+    .col-offset-60{
+        /*padding-left:75px;*/
+        z-index:0;
+    }
+
+    </style>
+
+    <!-- <div class="on-mobile col-lg-12  offset-lg-0 offset-md-0 col-md-12 offset-sm-0 col-sm-12 offset-xs-0 col-xs-12  flex-col" style=" text-align:center; padding-left:0px; padding-right:0px; border-radius: 0px;">
+        <h1>Logo</h1> <br>
+    </div> -->
+    <div class="col-lg-12  offset-lg-0 offset-md-0 col-md-12 offset-sm-0 col-sm-12 offset-xs-0 col-xs-12  flex-col" style="     padding-left: 0px;
+    border-radius: 0px;
+    padding-right: 0px;
+    border-radius: 0px;
+    height: 100vh;">
+        <div class=" card" style="    border-radius: 0px;
+    width: 100%;">          
+          <div class="card-block" style="font-size: 80%; text-align: center; height: 80vh;"> 
+            <div class="row " style="height: 100%;" >
+                <div id="contact-row" class="col-md-12 col-lg-4 col-xs-12 col-sm-12" style="height: 100%;  overflow: hidden;" >
+                    <div style="height:100%;">
+                        <div class="search" style="background-attachment:fixed">
+                            <div class="contact1"   style="border: 1px solid #CCC;">
+                        
+                                <div class="row row-eq-height" style="padding-top: 5px;padding-bottom: 5px;    display: -webkit-box;">
+                                    <div class="col-fixed-60">
+                                        <div style="padding: 10px;">
+
+                                            <div  class="ratio img-responsive img-circle" style="background-image: url('/user_images/{{ user.user_image}}');"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-offset-60" >
+                                        <div class="row row-eq-height">
+                                            <div class="col-6 " style="text-align: left;">
+                                                <!-- Details -->
+                                                <p class="c-name" style="font-size: 140%; font-weight: 700; margin-bottom: 5px;" >{{ user.user_name | capitalize}}</p>
+                                                <p style="font-style: italic; margin-bottom: 0px;">Last Seen: {{ php.get_day_name( php.strtotime(user.last_login)) }}</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <!-- Bubble -->
+                                                    <span > <i style="font-size: 250%; cursor: pointer;" id="search-fa" class="fa fa-search"></i> <a href="/"><i style="font-size: 300%; cursor: pointer;" id="home" class="fa fa-home"></i></a></span>
+                                            </div>
+                                        </div>                            
+                                    </div>
+                                </div>
+                            </div>
+                            <input id="search-input" onkeyup="search()" type="text" style="font-style: italic;" placeholder="Search Contacts" class="form-control">
+                        </div>
+                        <br>
+
+                        <style>
+                            #tabbar li a {
+                                background-color: #555;
+                                color: white;
+                            }
+                            #tabbar li a:hover {
+                                background-color: #444;
+                                color: white;
+                            }
+                        
+                            #tabbar li  a.active {
+                                background-color: white;
+                                color: #555;
+                            }
+                        </style>
+                    <!-- Nav tabs -->
+                    <ul id="tabbar" class="nav nav-tabs nav-justified" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#recent" role="tab">Recent</a>
+                      </li>
+                      
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#following" role="tab">Following</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#followers" role="tab">Followers</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#online" role="tab">Online</a>
+                      </li>
+                    </ul>
+
+
+                        
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane" id="recent" role="tabpanel">
+                                <!-- recent -->
+                                <!-- contacts -->
+                                <div class="contacts" style="    overflow-y: scroll; overflow-x: hidden; max-height: -webkit-fill-available;">
+                                    {% if user.conversations %}
+                                        {% for  contact in    user.conversations.sortByDesc('updated_at') %}
+                                            {% for cuser in contact.users %}
+                                                {% if cuser.user_id == user.user_id %}
+                                                
+                                                {% else %}
+                                                    {% include 'chat/conversation.twig' with { 'contact': contact,  'user' : cuser }  %}
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                        {% endfor %}
+                                    {% else %}
+                                        {% include 'chat/no.twig' with {'message' : "No Conversations"} %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="online" role="tabpanel">
+                                <!-- online -->
+                                <!-- online -->
+                                <div class="contacts" style="    overflow-y: scroll; overflow-x: hidden; max-height: -webkit-fill-available;">
+                                 
+                                        {% for  contact in    user.all() %}
+                                                {% if contact.online %}
+                                                    {% if contact.user_id != user.user_id %}
+                                                     {% include 'chat/contact.twig' with { 'contact': contact,  'user' : contact }  %}
+                                                    {% endif %}
+                                                {% endif %}
+                                        {% endfor %}
+                                  
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="following" role="tabpanel">
+                            <!-- followers -->
+                                <!-- followers -->
+                                <div class="contacts" style="    overflow-y: scroll; overflow-x: hidden; max-height: -webkit-fill-available;">
+                                    {% if user.followers.all %}
+                                        {% for  contact in    user.followers.all %}
+												{% if  user.user_id !=  contact.follower.user_id %}
+													{% include 'chat/contact.twig' with { 'contact': contact,  'user' : contact.follower }  %}
+												{% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% include 'chat/no.twig' with {'message' : "No Following"} %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="followers" role="tabpanel">
+                            
+                                <!-- followeing -->
+                                <div class="contacts" style="    overflow-y: scroll; overflow-x: hidden; max-height: -webkit-fill-available;">
+                                    {% if user.followings.all %}
+                                        {% for  contact in    user.followings.all %}
+											{% if  user.user_id !=  contact.following.user_id %}
+                                                {% include 'chat/contact.twig' with { 'contact': contact,  'user' : contact.following }  %}
+											{% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        {% include 'chat/no.twig' with {'message' : "No Followers"} %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+                <div id="chat" class="col-8  no-gutters hidden-md hidden-xs hidden-sm " style="border-left: 1px solid #CCC;">
+                    <div id="in-chat" class="row no-gutters on-web">
+                        <div id="in-in-chat" style="    height: 95vh;
+    margin-left: auto;" class="col-12  no-gutters " >
+                                <div id="welcome">
+                                    {% include 'chat/welcome.twig'  %}
+                                </div>
+                                <div id="chat-box" style="display: none;
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+ " >
+                                    {% include 'chat/chat.twig'  %}
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <script>
+    $(".contact").click(function() {
+        $("#contact-row").toggleClass("collapsed");
+        $("#chat").toggleClass("col-12 col-8");
+        $("#chat").removeClass("hidden-md");
+        $("#chat").removeClass("hidden-xs");
+        $("#chat").removeClass("hidden-sm");
+        $("#in-chat").removeClass("on-web");
+        $("#in-in-chat").css({"margin-left": "-15px"});
+        // $("#back i").removeClass("fa-rotate-180");        
+        
+
+
+    });
+    $("#back").click(function() {
+        $("#contact-row").toggleClass("collapsed");        
+        $("#chat").toggleClass("col-12 col-8");
+        $("#chat").addClass("hidden-md");
+        $("#chat").addClass("hidden-xs");
+        $("#chat").addClass("hidden-sm");
+        $("#in-chat").addClass("on-web");
+        $("#in-in-chat").css({"margin-left": "auto"});
+        // $("#back i").toggleClass("fa-rotate-180");        
+
+
+    });
+
+
+          $("#recent").tab('show');
+
+	
+    </script>
+{% endblock %}
+{% block scripts %}
+    {% include 'chat/script.twig'  %}
+{% endblock %}

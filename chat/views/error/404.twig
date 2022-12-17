@@ -1,0 +1,21 @@
+{% extends 'templates/default.twig' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+<div class="col-lg-6 offset-lg-3">
+    <div style="text-align: center;">
+        <img src="\assets\images\error\404.png" alt="Page Not Found" style="max-height: 300px;">
+    </div>
+    <br><br><br>
+    <div class="card">
+      <div class="card-header">
+        Page Not Found
+      </div>
+      <div class="card-block" >
+            <p class="italic">It seems that your requested page is not found in our server. It may not be ever exist, temporarily down or permanently down.</p>
+            <p class="italic">If you think it is an anomaly, please <a href="{{ path_for('contact')}}">report us</a>. <br>Thank you for your valuable cooperation.</p>
+      </div>
+    </div>
+</div>
+{% endblock %}

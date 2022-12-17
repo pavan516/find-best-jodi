@@ -1,0 +1,17 @@
+{% if  data.user %}
+    <p>Hello {{ data.user.first_name }},</p>
+{% else %}
+    <p>Hello there,</p>
+{% endif %}
+
+{% block content %}
+    
+{% endblock %}
+<br><br><br>
+<p>
+<strong>Best Regards,</strong><br>
+{{ config.get('app.admin')}} <br>
+Administrator <br>
+{{ config.get('app.name')}}
+
+</p>

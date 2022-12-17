@@ -1,0 +1,70 @@
+{% extends 'templates/default.twig' %}
+{% block title %}
+    Contact
+{% endblock %}
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header">
+            Contact
+          </div>
+          <div class="card-block" style="font-size: 80%;">
+            <form action="{{ path_for('contact.post')}}" method="post" autocomplete="off">
+                <!-- Full Name -->
+                <div class="form-group validation-group {{ errors.fullname ? 'has-error has-feedback' : '' }}">
+                    <label for="fullname">Full Name</label>
+                    <div class="{{ errors.fullname ? 'validation-input-error' : 'validation-input-noerror' }}"   >
+                        <input type="text" name="fullname" id="fullname" placeholder="Iqbal Rasheed" class="form-control {{ errors.fullname ? 'has-error' : '' }}" value="{{ old.fullname }}">
+                        {% if errors.fullname %}
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        {% endif %}
+                    </div>
+                    {% if errors.fullname %}
+                    <span class="help-block"
+                        {{ errors.fullname | first}}.
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Email Address -->
+                <div class="form-group validation-group {{ errors.email ? 'has-error has-feedback' : '' }}">
+                    <label for="email">Email Address</label>
+                    <div class="{{ errors.email ? 'validation-input-error' : 'validation-input-noerror' }}"   >
+                        <input type="text" name="email" id="email" placeholder="iqbal@myphpnotes.tk" class="form-control {{ errors.email ? 'has-error' : '' }}" value="{{ old.email }}">
+                        {% if errors.email %}
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        {% endif %}
+                    </div>
+                    {% if errors.email %}
+                    <span class="help-block"
+                        {{ errors.email | first}}.
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Query -->
+                <div class="form-group validation-group {{ errors.query ? 'has-error has-feedback' : '' }}">
+                    <label for="query">Query</label>
+                    <div class="{{ errors.query ? 'validation-input-error' : 'validation-input-noerror' }}"   >
+                        <textarea style="height:200px;" name="query" id="query" placeholder="Thanks for your awesome service..." class="form-control {{ errors.query ? 'has-error' : '' }}" >{{old.query}}</textarea>
+                        {% if errors.query %}
+                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                        {% endif %}
+                    </div>
+                    {% if errors.query %}
+                    <span class="help-block"
+                        {{ errors.query | first}}.
+                    </span>
+                    {% endif %}
+                </div>
+
+                
+                {{ csrf.field | raw }}
+                <!-- Sumbit Query Button -->
+                <input type="submit" class="btn btn-md btn-danger btn-block" value="Submit">
+            </form>
+
+          </div>
+        </div>
+    </div>
+{% endblock %}

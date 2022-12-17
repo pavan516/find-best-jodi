@@ -1,0 +1,11 @@
+{% extends 'email/template/default.twig' %}
+{% block content %}
+    
+    <label for="name"><strong>Full Name</strong></label><br>
+    <label for="name">{{ data.name }}</label><br><br>
+    <label for="email"><strong>Email Address</strong></label><br>
+    <label for="email">{{ data.email }}</label><br><br>
+    <label for="query"><strong>Query</strong></label><br>
+    <label for="query">{{ data.query }}</label><br><br>
+
+{% endblock %}

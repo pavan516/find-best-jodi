@@ -1,0 +1,21 @@
+# stop the index to being shown
+
+
+
+# .htaccess main domain to subdirectory redirect 
+# Do not change this line. 
+
+
+RewriteEngine On
+
+
+
+# Map http://www.example.com to /jekyll.
+RewriteRule ^$ /chat/public/ [L]
+
+
+
+
+
+
+

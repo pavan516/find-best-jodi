@@ -1,0 +1,29 @@
+                    <div class="contact" onclick="openContact({{user.user_id}})"  style="border: 1px solid #CCC;">
+
+                            <!-- Contacts -->
+                            <!-- Contact -->
+                            <div class="row row-eq-height" style="padding-top: 5px;padding-bottom: 5px;">
+                                
+                                <div class="col-fixed-60">
+                                    <div style="padding: 10px;">
+
+                                        <div  class="ratio img-responsive img-circle" style="background-image: url('/user_images/{{ user.user_image}}');"></div>
+                                    </div>
+                                </div>
+                                <div class="col-8 col-offset-60" >
+                                    <div class="row row-eq-height">
+                                        <div class="col-8 " style="text-align: left;">
+                                            <!-- Details -->
+                                            <p class="c-name" style="font-size: 140%; font-weight: 700; margin-bottom: 5px;" >{{ user.user_name | capitalize}}</p>
+                                          
+                                            <p style="font-style: italic; margin-bottom: 0px;">Last Seen: {{ php.get_day_name( php.strtotime(user.last_login)) }}</p>
+                               
+                                        </div>
+                                        <div class="col-4">
+                                            <!-- Bubble -->
+
+                                        </div>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>

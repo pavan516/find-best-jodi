@@ -1,0 +1,102 @@
+<table class="table table-striped bordered ">
+    <thead  class="thead-inverse bordered">
+        <th>S. No.</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Active</a></th>
+        <th>Banned</th>
+        <th>Joined</th>
+        {% set control_accessables = ["Administrator", "Moderator"] %} 
+        {% if auth.user().haveAccess(control_accessables)  %}
+            <th>Controls</th>
+        {% endif %}
+       
+    </thead>
+    <tbody class="bordered">
+        {% for user in users %}
+            <tr scope="row" id="{{ user.username }}">
+
+                <td >{{ loop.index }}</td>
+                <td>{{ user.firstname }} {{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.username }}</td>
+                <td>
+                {% if  user.haveRole() %}
+                    {{ user.roles.first.name}}
+                {% else %}
+                    <i  class="fa fa-close" title="No role alloted"></i>
+                {% endif %}
+                </td>
+                <td style="text-align: center;">
+                    {% if user.active %}
+                        <i title="Active" class="fa fa-check"></i>                    
+                    {% else %}
+                        <i title="Not Active" class="fa fa-close"></i>
+                    {% endif %}
+
+                </td>
+                <td style="text-align: center;">
+                    {% if user.banned %}
+                        <i title="Banned" class="fa fa-check"></i>                    
+                    {% else %}
+                        <i title="Not Banned" class="fa fa-close"></i>
+                    {% endif %}
+                </td>
+                <td>{{ user.created_at }}</td>
+                {% if auth.user().haveAccess(control_accessables)  %}
+                    <td style="display: flex; ">
+                        {% if not  user.deleted_at %}
+                            <!-- Activate User's Account -->
+                            <form action="{{ path_for('manage.users.control.activation')}}" method="post">
+                                    <input type="hidden" name="username" value="{{user.username}}">
+                                {% if  user.active %}
+                                    <button title="Deactivate Account" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-level-down"></i></button>
+                                    <input type="hidden" name="state" value="0">
+                                {% else %}
+                                    <button title="Activate Account" type="submit"  class="btn btn-sm btn-danger"><i class="fa fa-level-up"></i></button>
+                                    <input type="hidden" name="state" value="1">
+                                {% endif %}
+                                {{ csrf.field | raw }}
+                            </form>
+
+                            
+                            {% set role_accessables = ["Administrator"] %}  
+                            {% if auth.user().haveAccess(role_accessables)  %}
+                                <!-- Allot a Role -->
+                                {% if  not user.haveRole() %}
+                                <a title="Allot Badge" href="{{ path_for('manage.roles.allot', {'username' : user.username })}}"><button  class="btn btn-sm btn-success"><i class="fa fa-id-badge"></i></button></a>
+                                {% else %}
+                                <a title="Remove Badge" href="{{ path_for('manage.roles.remove', {'username' : user.username })}}"><button class="btn btn-sm btn-danger"><i class="fa fa-id-badge"></i></button></a>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+
+                        {% set ban_accessables = ["Administrator"] %}  
+                        {% if auth.user().haveAccess(ban_accessables)  %}
+                            <!-- Ban/Unban User -->                    
+                            <form action="{{path_for('manage.users.control.ban')}}" method="post">
+                                    <input type="hidden" name="username" value="{{user.username}}">
+                                {% if not  user.banned %}
+                                    <button title="Ban user" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-remove"></i></button>
+                                    <input type="hidden" name="state" value="1">
+                                {% else %}
+                                    <button title="Unban user" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-recycle"></i></button>
+                                    <input type="hidden" name="state" value="0">
+                                {% endif %}
+                                {{ csrf.field | raw }}
+                            </form> 
+                        {% endif %}                   
+                    </td>
+                {% endif %}
+                
+           
+               
+                
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+
+</table>
